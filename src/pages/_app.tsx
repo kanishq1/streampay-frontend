@@ -4,9 +4,9 @@ import dynamic from "next/dynamic";
 import { ConnectionProvider } from "@solana/wallet-adapter-react";
 import { WalletAdapterNetwork } from "@solana/wallet-adapter-base";
 import { clusterApiUrl } from "@solana/web3.js";
+import("@solana/wallet-adapter-react-ui/styles.css" as any);
 import "tailwindcss/tailwind.css";
 import "../styles/globals.css";
-import "../styles/App.css";
 
 const SOLANA_NETWORK = WalletAdapterNetwork.Devnet;
 // const SOLANA_NETWORK = WalletAdapterNetwork.Mainnet;

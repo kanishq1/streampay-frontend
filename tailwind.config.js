@@ -11,13 +11,9 @@ module.exports = {
       // serif: ['Merriweather', 'serif'],
     },
     extend: {
-      // spacing: {
-      //   '128': '32rem',
-      //   '144': '36rem',
-      // },
-      // borderRadius: {
-      //   '4xl': '2rem',
-      // }
+      colors: {
+        "glass-blue": "#404f5c91",
+      },
     },
   },
   variants: {
@@ -26,7 +22,7 @@ module.exports = {
   plugins: [require("@tailwindcss/typography"), require("daisyui")],
   daisyui: {
     styled: true,
-    themes: ["forest"],
+    themes: ["dark"],
     base: true,
     utils: true,
     logs: true,
