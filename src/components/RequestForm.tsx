@@ -1,11 +1,21 @@
 import { useWallet } from "@solana/wallet-adapter-react";
 import axios from "axios";
+import moment from "moment";
 import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
 
 const RequestForm = () => {
+  moment().local();
   const { publicKey } = useWallet();
   const [formData, setFormData] = useState<any>();
-  const freqOptions = {};
+  const freqOptions = [
+    "second",
+    "minute",
+    "hour",
+    "day",
+    "week",
+    "month",
+    "year",
+  ];
   const concelOptions = {};
   const tokenOptins = {};
 
@@ -15,19 +25,21 @@ const RequestForm = () => {
     }
   }, [publicKey]);
 
+  const getUnixTime = (date: any, time: any) => {
+    let start = moment(`${date} ${time}`, "YYYY-MM-DD hh:mm:ss").unix();
+  };
+
   const handleFormSubmit = async (e: FormEvent) => {
     e.preventDefault();
     // handle mint address, time check, other params
-    await axios({
-      method: "POST",
-      data: formData,
-      url: "http://localhost:4001/link",
-    });
+
+    let start = getUnixTime(formData.start_date, formData.start_time);
+    let relase_frequency = formData.release_frequency;
+
+    console.log(start);
   };
 
   const handleInputChange = (e: any) => {
-    console.log(e.target.name);
-
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
@@ -56,7 +68,7 @@ const RequestForm = () => {
               <option>Stream</option>
             </select>
           </div>
-          <div className="col-span-5 flex flex-col">
+          <div className="col-span-6 flex flex-col">
             <label>Amount</label>
             <input
               onChange={handleInputChange}
@@ -66,12 +78,35 @@ const RequestForm = () => {
             />
           </div>
           <div className="col-span-6 flex flex-col">
+            <label>Release Frequency</label>
+            <div className="inline-flex justify-between">
+              <input
+                onChange={handleInputChange}
+                name="relase_frequency"
+                className="rounded input h-10 input-bordered w-[48%]"
+                type="number"
+              />
+              <select
+                onChange={handleInputChange}
+                name="release_freq_unit"
+                className="rounded input h-10 input-bordered w-[48%]"
+              >
+                {freqOptions.map((i) => (
+                  <option key={i} value={i}>
+                    / {i}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+          <div className="col-span-6 flex flex-col">
             <label>Start Date</label>
             <input
               onChange={handleInputChange}
               name="start_date"
               className="rounded input h-10 input-bordered"
               type="date"
+              min={moment().format("YYYY-MM-DD")}
             />
           </div>
           <div className="col-span-6 flex flex-col">
@@ -100,30 +135,7 @@ const RequestForm = () => {
           <label>Auto Withdrawal</label>
           <input type="checkbox" className="toggle toggle-accent" />
         </div> */}
-          <div className="col-span-6 flex flex-col">
-            <label>Release Frequency</label>
-            <div className="inline-flex justify-between">
-              <input
-                onChange={handleInputChange}
-                name="relase_frequency"
-                className="rounded input h-10 input-bordered w-[48%]"
-                type="number"
-              />
-              <select
-                onChange={handleInputChange}
-                name="release_freq_unit"
-                className="rounded input h-10 input-bordered w-[48%]"
-              >
-                <option>/ second</option>
-                <option>/ minute</option>
-                <option>/ hour</option>
-                <option>/ day</option>
-                <option>/ week</option>
-                <option>/ month</option>
-                <option>/ year</option>
-              </select>
-            </div>
-          </div>
+
           <div className="col-span-12 flex flex-col">
             <label>Email</label>
             <input

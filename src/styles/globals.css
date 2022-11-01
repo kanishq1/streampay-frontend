@@ -5,6 +5,14 @@
 * {
   box-sizing: border-box;
 }
+@layer base {
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
+
 .login-bg-gradient {
   background: radial-gradient(#517683 0, #517683 100%);
   height: 70vh;

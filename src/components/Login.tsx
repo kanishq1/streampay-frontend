@@ -10,9 +10,9 @@ const Login = () => {
 
   const login = async () => {
     try {
-      await axios.post("http://localhost:4001/api/login", {
-        wallet_addr: publicKey?.toString(),
-      });
+      // await axios.post("http://localhost:4001/api/login", {
+      //   wallet_addr: publicKey?.toString(),
+      // });
       router.push("/dashboard");
     } catch (err) {
       console.log(err);
