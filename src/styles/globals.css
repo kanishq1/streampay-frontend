@@ -11,6 +11,16 @@
     -webkit-appearance: none;
     margin: 0;
   }
+  a {
+    display: inline-block;
+  }
+  .input:focus {
+    outline-offset: 1px !important;
+    box-shadow: 0 0 0 1px hsl(var(--b1)), 0 0 0 2px hsla(var(--bc) / 0.2) !important;
+  }
+  .grid-col-sidebar {
+    grid-template-columns: 16rem 1fr;
+  }
 }
 
 .login-bg-gradient {

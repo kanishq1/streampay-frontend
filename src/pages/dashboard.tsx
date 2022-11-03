@@ -17,7 +17,7 @@ const Dashboard: NextPage = (props) => {
   }, [publicKey]);
 
   return (
-    <div className="flex">
+    <div className="grid grid-col-sidebar">
       <Head>
         <title>StreamPay</title>
         <meta name="description" content="StreamPay" />
@@ -25,7 +25,6 @@ const Dashboard: NextPage = (props) => {
       <Sidebar />
       <main className="flex-grow">
         <RequestForm />
-        <div className="h-64"></div>
       </main>
     </div>
   );
