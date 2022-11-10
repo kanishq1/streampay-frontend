@@ -13,7 +13,7 @@ interface PayDetailProps {
 
 const PayDetails = ({ recipient, linkDetails }: PayDetailProps) => {
   const [txSig, setTxSig] = useState("");
-  const [sucess, setSuccess] = useState(true);
+  const [sucess, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const { publicKey, signTransaction, signAllTransactions } = useWallet();
