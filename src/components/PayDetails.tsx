@@ -13,7 +13,7 @@ interface PayDetailProps {
 
 const PayDetails = ({ recipient, linkDetails }: PayDetailProps) => {
   const [txSig, setTxSig] = useState("");
-  const [sucess, setSuccess] = useState(false);
+  const [sucess, setSuccess] = useState(true);
   const [loading, setLoading] = useState(false);
 
   const { publicKey, signTransaction, signAllTransactions } = useWallet();
@@ -99,8 +99,20 @@ const PayDetails = ({ recipient, linkDetails }: PayDetailProps) => {
             rel="noopener noreferrer"
             href={`https://solana.fm/tx/${txSig}?cluster=devnet-qn1`}
           >
-            View transaction on SolanaFM{" "}
+            View transaction on SolanaFM
           </a>
+          <br />
+          <p className="mt-4">
+            You can also view stream details on{" "}
+            <a
+              className="ext-link underline"
+              href="https://app.streamflow.finance/all-streams"
+              target={"_blank"}
+              rel="noopener noreferrer"
+            >
+              StreamFlow App
+            </a>
+          </p>
         </>
       )}
     </div>
