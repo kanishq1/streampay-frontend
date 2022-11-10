@@ -2,6 +2,7 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import axios from "axios";
 import moment from "moment";
 import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { backend_url } from "../../config";
 
 const RequestForm = () => {
   moment().local();
@@ -11,7 +12,7 @@ const RequestForm = () => {
   const [formData, setFormData] = useState<any>({
     release_frequency: 1,
     amount_per_period: 1,
-    token: "USDC",
+    token: "SOL",
   });
   const [host, setHost] = useState<string>("");
   const freqOptions = [
@@ -24,8 +25,10 @@ const RequestForm = () => {
     { option: "year", value: 6622560000 },
   ];
   const concelOptions = {};
-  const tokenOptins = {};
-
+  const tokenOptins = [
+    { name: "USDC", value: "USDC" },
+    { name: "SOL", value: "SOL", default: true },
+  ];
   useEffect(() => {
     setHost(window.location.origin);
 
@@ -52,7 +55,7 @@ const RequestForm = () => {
 
     let { data } = await axios({
       method: "POST",
-      url: "http://localhost:4001/api/link",
+      url: `${backend_url}/api/link`,
       data: formData,
     });
 
@@ -100,6 +103,7 @@ const RequestForm = () => {
                     name="title"
                     className="rounded input h-10 input-bordered"
                     type="text"
+                    required
                   />
                 </div>
                 <div className="col-span-7 flex flex-col">
@@ -108,10 +112,13 @@ const RequestForm = () => {
                     onChange={handleInputChange}
                     name="token"
                     className="rounded input h-10 input-bordered"
+                    required
                   >
-                    <option>USDC</option>
-                    <option>Solana</option>
-                    <option>Stream</option>
+                    {tokenOptins.map((i) => (
+                      <option key={i.name} value={i.value} selected={i.default}>
+                        {i.name}
+                      </option>
+                    ))}
                   </select>
                 </div>
                 <div className="col-span-6 flex flex-col">
@@ -121,6 +128,8 @@ const RequestForm = () => {
                     name="amount"
                     className="rounded input h-10 input-bordered"
                     type="number"
+                    step="0.0001"
+                    required
                   />
                 </div>
                 <div className="col-span-6 flex flex-col">
@@ -132,6 +141,7 @@ const RequestForm = () => {
                       className="rounded input h-10 input-bordered w-[48%]"
                       type="number"
                       defaultValue={1}
+                      step="0.0000001"
                     />
                     <select
                       onChange={handleInputChange}
@@ -205,13 +215,15 @@ const RequestForm = () => {
                 {formData?.start_date ? formData.start_date : "___"} at{" "}
                 {formData?.start_time ? formData.start_time : "___"}
               </strong>
-              . <strong>{amtPerUnitTime()}</strong> USDC released every{" "}
+              . <strong>{amtPerUnitTime()}</strong>{" "}
+              {formData?.token ? formData.token : "___"} released every{" "}
               <strong>{releasingUnit()}</strong>.
             </p>
             <p className="bg-glass-blue mt-10 p-4 rounded-lg">
               Streamflow charges 0.25% service fee ({" "}
               <strong>
-                {formData?.amount ? formData?.amount * 0.0025 : 0} USDC )
+                {formData?.amount ? formData?.amount * 0.0025 : 0}{" "}
+                {formData?.token ? formData.token : "___"} )
               </strong>{" "}
               on top of the specified amount, while respecting the given
               schedule.

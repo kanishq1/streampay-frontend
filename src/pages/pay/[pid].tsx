@@ -6,6 +6,7 @@ import Sidebar from "../../components/Sidebar";
 import Head from "next/head";
 import PayDetails from "../../components/PayDetails";
 import Topbar from "../../components/Topbar";
+import { backend_url } from "../../../config";
 
 const PayPage: NextPage = () => {
   const [linkDetails, setLinkDetails] = useState<any>();
@@ -14,7 +15,7 @@ const PayPage: NextPage = () => {
   const { pid } = router.query;
 
   const getLinkDetails = async () => {
-    let { data } = await axios.get(`http://localhost:4001/api/link/${pid}`);
+    let { data } = await axios.get(`${backend_url}/api/link/${pid}`);
     setLinkDetails(data.link);
     setRecipient(data.recipient.wallet_addr);
 

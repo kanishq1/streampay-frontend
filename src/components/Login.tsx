@@ -2,6 +2,7 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { Router, useRouter } from "next/router";
 import React, { useEffect } from "react";
+import { backend_url } from "../../config";
 import axios from "axios";
 
 const Login = () => {
@@ -10,7 +11,7 @@ const Login = () => {
 
   const login = async () => {
     try {
-      await axios.post("http://localhost:4001/api/login", {
+      await axios.post(`${backend_url}/api/login`, {
         wallet_addr: publicKey?.toString(),
       });
       router.push("/dashboard");

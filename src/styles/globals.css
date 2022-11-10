@@ -36,3 +36,24 @@
 .wallet-adapter-button {
   background: rgba(255, 255, 255, 0.099) !important;
 }
+.loader {
+  border: 2px solid #fff;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.ext-link:after {
+  margin-left: 5px;
+  content: url("data:image/svg+xml,%3Csvg width='12' height='12' viewBox='0 0 8 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7.00178 0.986487C6.99431 0.710445 6.76449 0.492717 6.48845 0.500178L1.99009 0.621755C1.71405 0.629216 1.49632 0.85904 1.50378 1.13508C1.51124 1.41112 1.74107 1.62885 2.01711 1.62139L6.01565 1.51332L6.12372 5.51186C6.13118 5.7879 6.361 6.00563 6.63704 5.99817C6.91308 5.99071 7.13081 5.76089 7.12335 5.48484L7.00178 0.986487ZM1.36298 7.15149L6.86493 1.34387L6.13898 0.656123L0.637024 6.46374L1.36298 7.15149Z' fill='white'/%3E%3C/svg%3E%0A");
+}

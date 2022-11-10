@@ -8,21 +8,27 @@ const sc = new StreamClient(
   "confirmed"
 );
 
-const createStreamPayment = async (wallet: Wallet, streamDetails: any) => {
-  try {
-    let recipentWallet = "2aBzSoD1PWwGnubo4CS1veGcbyDZazWhrKHUKAFpbsm2";
+const tokenList = {
+  USDC: { mint: "Gh9ZwEmdLJ8DscKNTkTqPbNwLNNBjuSzaG9Vp2KGtKJr", decimal: 6 },
+  SOL: { mint: "So11111111111111111111111111111111111111112", decimal: 9 },
+};
 
+const createStreamPayment = async (wallet: Wallet, streamDetails: any) => {
+  let token: string = streamDetails.token;
+  let decimal = (tokenList as any)[token].decimal;
+  let mint = (tokenList as any)[token].mint;
+  try {
     const createStreamParams = {
       sender: wallet,
-      recipient: recipentWallet,
-      mint: "So11111111111111111111111111111111111111112",
-      start: 1667491749,
-      depositedAmount: getBN(0.1, 9),
-      period: 999,
-      cliff: 1667491749,
+      recipient: streamDetails.recipient,
+      mint: mint,
+      start: streamDetails.start,
+      depositedAmount: getBN(streamDetails.amount, decimal),
+      period: streamDetails.release_frequency,
+      cliff: streamDetails.start,
       cliffAmount: new BN(0),
-      amountPerPeriod: getBN(0.000001, 9),
-      name: "Transfer to Jane Doe",
+      amountPerPeriod: getBN(streamDetails.amount_per_period, decimal),
+      name: streamDetails.title,
       canTopup: false,
       cancelableBySender: false,
       cancelableByRecipient: false,
@@ -32,9 +38,13 @@ const createStreamPayment = async (wallet: Wallet, streamDetails: any) => {
     };
     const { ixs, tx, metadata } = await sc.create(createStreamParams);
     console.log({ ixs, tx, metadata });
+    return { ixs, tx, metadata };
   } catch (exception) {
-    console.log(exception);
+    return exception;
   }
 };
 
 export default createStreamPayment;
+
+// USDC:Gh9ZwEmdLJ8DscKNTkTqPbNwLNNBjuSzaG9Vp2KGtKJr
+// Sol: So11111111111111111111111111111111111111112

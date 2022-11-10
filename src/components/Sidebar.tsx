@@ -35,18 +35,23 @@ const Sidebar = () => {
               </Link>
             </li>
             <li className="hover:bg-[#3c4251] my-1 hover:rounded-md -ml-2 pl-2">
-              <a className="py-3" href="/links">
-                Links (Coming Soon)
-              </a>
+              <Link href="/links">
+                <a className="py-3">Links (Coming Soon)</a>
+              </Link>
             </li>
             <li className="hover:bg-[#3c4251] my-1 hover:rounded-md -ml-2 pl-2">
-              <a className="py-3" href="/">
+              <Link href="/pay">
+                <a className="py-3">Pay (Coming Soon)</a>
+              </Link>
+            </li>
+            <li className="hover:bg-[#3c4251] rounded-md my-8 bg-[#3c42515a] -ml-2 pl-2">
+              <a
+                className="py-3"
+                href="https://app.streamflow.finance/"
+                target="_blank"
+                rel="noreferrer"
+              >
                 StreamFlow
-              </a>
-            </li>
-            <li className="hover:bg-[#3c4251] my-1 hover:rounded-md -ml-2 pl-2">
-              <a className="py-3" href="/pay">
-                Pay (Coming Soon)
               </a>
             </li>
           </ul>
