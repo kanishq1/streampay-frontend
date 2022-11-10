@@ -4,17 +4,23 @@ import { Router, useRouter } from "next/router";
 import React, { useEffect } from "react";
 import { backend_url } from "../../config";
 import axios from "axios";
+import { Url } from "url";
 
 const Login = () => {
   const router = useRouter();
   const { publicKey, connected } = useWallet();
+  console.log(router);
 
   const login = async () => {
     try {
       await axios.post(`${backend_url}/api/login`, {
         wallet_addr: publicKey?.toString(),
       });
-      router.push("/dashboard");
+      if (router.query.redirect) {
+        router.push(router.query.redirect as any);
+      } else {
+        router.push("/dashboard");
+      }
     } catch (err) {
       console.log(err);
     }

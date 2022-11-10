@@ -3,6 +3,8 @@ import { Wallet } from "@project-serum/anchor";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { FormEvent, useEffect, useState } from "react";
 import createStreamPayment from "../utils/createStream";
+import { backend_url } from "../../config";
+import axios from "axios";
 
 interface PayDetailProps {
   recipient?: string;
@@ -27,6 +29,11 @@ const PayDetails = ({ recipient, linkDetails }: PayDetailProps) => {
     setTxSig(streamData?.tx);
     setSuccess(true);
     setLoading(false);
+    await axios({
+      method: "PUT",
+      url: `${backend_url}/api/link/${linkDetails.link_code}`,
+      data: { status: "PAID" },
+    });
   };
 
   return (
