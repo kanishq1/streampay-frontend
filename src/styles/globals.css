@@ -22,6 +22,9 @@
     grid-template-columns: 16rem 1fr;
   }
 }
+body {
+  background: #1c2530;
+}
 
 .wallet-adapter-button {
   background: rgba(255, 255, 255, 0.099) !important;

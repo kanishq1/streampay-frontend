@@ -12,6 +12,7 @@ import { useWallet } from "@solana/wallet-adapter-react";
 const PayPage: NextPage = () => {
   const [linkDetails, setLinkDetails] = useState<any>();
   const [recipient, setRecipient] = useState<any>();
+  const [err, setErr] = useState<any>();
   const router = useRouter();
   const { pid } = router.query;
 
@@ -26,11 +27,15 @@ const PayPage: NextPage = () => {
   }, [publicKey]);
 
   const getLinkDetails = async () => {
-    let { data } = await axios.get(`${backend_url}/api/link/${pid}`);
-    setLinkDetails(data.link);
-    setRecipient(data.recipient.wallet_addr);
+    try {
+      let { data } = await axios.get(`${backend_url}/api/link/${pid}`);
+      setLinkDetails(data.link);
+      setRecipient(data.recipient.wallet_addr);
 
-    return data.link;
+      return data.link;
+    } catch (err) {
+      setErr(err);
+    }
   };
 
   useEffect(() => {
@@ -49,6 +54,9 @@ const PayPage: NextPage = () => {
           <Topbar />
           {linkDetails && recipient && (
             <PayDetails linkDetails={linkDetails} recipient={recipient} />
+          )}
+          {err && (
+            <div className="p-8 text-2xl text-white">Link not found :(</div>
           )}
         </main>
       </div>

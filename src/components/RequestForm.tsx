@@ -8,6 +8,7 @@ const RequestForm = () => {
   moment().local();
   const { publicKey } = useWallet();
   const [linkCopied, showLinkCopied] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [linkDetails, setLinkDetails] = useState<any>();
   const [formData, setFormData] = useState<any>({
     release_frequency: 1,
@@ -46,6 +47,7 @@ const RequestForm = () => {
 
   const handleFormSubmit = async (e: FormEvent) => {
     e.preventDefault();
+    setLoading(true);
     // handle mint address, time check, other params
 
     let start = getUnixTime(formData.start_date, formData.start_time);
@@ -60,6 +62,7 @@ const RequestForm = () => {
     });
 
     setLinkDetails(data.link);
+    setLoading(false);
   };
 
   const handleInputChange = (e: any) => {
@@ -91,7 +94,7 @@ const RequestForm = () => {
       {!linkDetails?.title && (
         <>
           <div className="w-[55%]">
-            <h3 className="mb-4 ml-2 text-2xl font-semibold">
+            <h3 className="mb-4 ml-2 text-white text-2xl font-semibold">
               Create payable link
             </h3>
             <form onSubmit={handleFormSubmit} className="request-form">
@@ -130,6 +133,7 @@ const RequestForm = () => {
                     type="number"
                     step="0.0001"
                     required
+                    min={0}
                   />
                 </div>
                 <div className="col-span-6 flex flex-col">
@@ -164,6 +168,7 @@ const RequestForm = () => {
                     className="rounded input h-10 input-bordered"
                     type="date"
                     min={moment().format("YYYY-MM-DD")}
+                    defaultValue={moment().format("YYYY-MM-DD")}
                   />
                 </div>
                 <div className="col-span-6 flex flex-col">
@@ -173,28 +178,14 @@ const RequestForm = () => {
                     name="start_time"
                     className="rounded input h-10 input-bordered"
                     type="time"
+                    defaultValue={moment().add(5, "minutes").format("hh:mm")}
                   />
                 </div>
-                {/* <div className="col-span-6 flex flex-col">
-                  <label>Who can cancel?</label>
-                  <select
-                    onChange={handleInputChange}
-                    name="cancelable_by"
-                    className="rounded input h-10 input-bordered"
-                  >
-                    <option>Both</option>
-                    <option>Only Recipent</option>
-                    <option>Only Sender</option>
-                    <option>None</option>
-                  </select>
-                </div> */}
-                {/* <div className="col-span-4 flex flex-col">
-          <label>Auto Withdrawal</label>
-          <input type="checkbox" className="toggle toggle-accent" />
-        </div> */}
-
                 <div className="col-span-12 flex flex-col">
-                  <label>Email</label>
+                  <label>
+                    Email{" "}
+                    <span className="text-sm text-gray-400">(optional)</span>
+                  </label>
                   <input
                     onChange={handleInputChange}
                     name="payer"
@@ -203,7 +194,12 @@ const RequestForm = () => {
                   />
                 </div>
               </div>
-              <button type="submit" className="btn btn-info bg-[#18A2D9] mt-2">
+              <button
+                type="submit"
+                className="btn btn-info bg-[#18A2D9] text-white mt-2"
+                disabled={loading}
+              >
+                {loading && <span className="loader h-5 w-5 mr-2"></span>}
                 Request Streaming Payment
               </button>
             </form>
@@ -233,32 +229,38 @@ const RequestForm = () => {
       )}
       {linkDetails?.title && (
         <div className="w-full">
-          <h3 className="mb-6 mt-10 text-2xl font-semibold">
+          <h3 className="mb-8 mt-10 text-2xl font-semibold text-white">
             Link Created, Share link to the payer!
           </h3>
           <div>
-            <h4 className="text-xl font-medium mb-3">Payment Details:</h4>
+            <h4 className="text-xl font-medium mb-5">Payment Details:</h4>
             <p className="my-2">
-              <strong>Recipient Wallet: </strong>
-              <span className="opacity-70">{publicKey?.toBase58()}</span>
-            </p>
-            <p className="my-2">
-              <strong>Title: </strong>
-              <span className="opacity-70">{linkDetails.title}</span>
-            </p>
-            <p className="my-2">
-              <strong>Amount: </strong>
-              <span className="opacity-70">
-                {linkDetails.amount} {linkDetails.token}
+              <span className="opacity-70">Recipient Wallet:</span>
+              <span className="font-semibold ml-2">
+                {publicKey?.toBase58()}
               </span>
             </p>
             <p className="my-2">
-              <strong>Payer: </strong>
-              <span className="opacity-70">{linkDetails.payer}</span>
+              <span className="opacity-70">Title:</span>
+              <span className="font-semibold ml-2">{linkDetails.title}</span>
             </p>
             <p className="my-2">
-              <strong>Once Payer approve stream will start at: </strong>
+              <span className="opacity-70">Amount:</span>
+              <span className="font-semibold ml-2">
+                {linkDetails.amount} {linkDetails.token}
+              </span>
+            </p>
+            {linkDetails.payer && (
+              <p className="my-2">
+                <span className="opacity-70">Payer:</span>
+                <span className="font-semibold ml-2">{linkDetails.payer}</span>
+              </p>
+            )}
+            <p className="my-2">
               <span className="opacity-70">
+                Once Payer approve stream will start at:
+              </span>
+              <span className="font-semibold ml-2">
                 {moment
                   .unix(linkDetails.start)
                   .format("dddd, MMMM Do YYYY, h:mm:ss a")}

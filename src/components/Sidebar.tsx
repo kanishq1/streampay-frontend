@@ -26,7 +26,7 @@ const Sidebar = () => {
   return (
     <div className="sidebar w-64 h-screen">
       <div className="h-full z-50 py-10 px-8 bg-glass-blue w-64 fixed flex flex-col">
-        <h3 className="font-bold text-2xl">StreamPay</h3>
+        <h3 className="font-bold text-2xl text-white">StreamPay</h3>
         <div>
           <ul className="mt-16">
             <li className="hover:bg-[#3c4251] my-1 hover:rounded-md -ml-2 pl-2">

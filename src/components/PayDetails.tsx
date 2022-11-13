@@ -45,26 +45,30 @@ const PayDetails = ({ recipient, linkDetails }: PayDetailProps) => {
           </h3>
           <div>
             <p className="my-2">
-              <strong>Recipient Wallet: </strong>
-              <span className="opacity-70">{recipient}</span>
+              <span className="opacity-70">Recipient Wallet:</span>
+              <span className="font-semibold ml-2">{recipient}</span>
             </p>
             <p className="my-2">
-              <strong>Title: </strong>
-              <span className="opacity-70">{linkDetails.title}</span>
+              <span className="opacity-70">Title:</span>
+              <span className="font-semibold ml-2">{linkDetails.title}</span>
             </p>
             <p className="my-2">
-              <strong>Amount: </strong>
-              <span className="opacity-70">
+              <span className="opacity-70">Amount:</span>
+              <span className="font-semibold ml-2">
                 {linkDetails.amount} {linkDetails.token}
               </span>
             </p>
+            {linkDetails.payer && (
+              <p className="my-2">
+                <span className="opacity-70">Payer:</span>
+                <span className="font-semibold ml-2">{linkDetails.payer}</span>
+              </p>
+            )}
             <p className="my-2">
-              <strong>Payer: </strong>
-              <span className="opacity-70">{linkDetails.payer}</span>
-            </p>
-            <p className="my-2">
-              <strong>Once you approve stream will start at: </strong>
               <span className="opacity-70">
+                Once you approve stream will start at:
+              </span>
+              <span className="font-semibold ml-2">
                 {moment
                   .unix(linkDetails.start)
                   .format("dddd, MMMM Do YYYY, h:mm:ss a")}
