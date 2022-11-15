@@ -203,7 +203,7 @@ const RequestForm = () => {
                   />
                 </div>
               </div>
-              <button type="submit" className="btn btn-info mt-2">
+              <button type="submit" className="btn btn-info bg-[#18A2D9] mt-2">
                 Request Streaming Payment
               </button>
             </form>

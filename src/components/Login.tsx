@@ -36,9 +36,6 @@ const Login = () => {
 
   return (
     <div className="login min-h-screen flex">
-      <div>
-        <div className="login-bg-gradient"></div>
-      </div>
       <div className="rounded-lg bg-[#404f5c91] shadow-lg my-auto mx-auto py-16 px-8 text-center">
         <h3 className="text-2xl font-bold">Welcome to StreamPay</h3>
         <p className="text-xl my-6">Connect your Crypto Wallet to continue</p>

@@ -110,7 +110,7 @@ const PayDetails = ({ recipient, linkDetails }: PayDetailProps) => {
               target={"_blank"}
               rel="noopener noreferrer"
             >
-              StreamFlow App
+              Streamflow App
             </a>
           </p>
         </>

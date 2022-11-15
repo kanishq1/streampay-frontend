@@ -51,7 +51,7 @@ const Sidebar = () => {
                 target="_blank"
                 rel="noreferrer"
               >
-                StreamFlow
+                Streamflow
               </a>
             </li>
           </ul>
