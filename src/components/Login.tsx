@@ -1,17 +1,17 @@
 import { useWallet } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
-import { Router, useRouter } from "next/router";
-import React, { useEffect } from "react";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
 import { backend_url } from "../../config";
 import axios from "axios";
-import { Url } from "url";
 
 const Login = () => {
   const router = useRouter();
   const { publicKey, connected } = useWallet();
-  console.log(router);
+  const [loading, setLoading] = useState(false);
 
   const login = async () => {
+    setLoading(true);
     try {
       await axios.post(`${backend_url}/api/login`, {
         wallet_addr: publicKey?.toString(),
@@ -24,15 +24,12 @@ const Login = () => {
     } catch (err) {
       console.log(err);
     }
+    setLoading(false);
   };
 
   useEffect(() => {
     if (publicKey && connected) login();
   }, [publicKey, connected]);
-
-  const handleClick = () => {
-    console.log("test");
-  };
 
   return (
     <div className="login min-h-screen flex">
@@ -41,6 +38,11 @@ const Login = () => {
         <p className="text-xl my-6">Connect your Crypto Wallet to continue</p>
         <WalletMultiButton className="m-auto" />
       </div>
+      {loading && (
+        <div className="h-screen w-screen flex justify-center items-center absolute bg-gray-500 bg-opacity-70">
+          <div className="loader h-10 w-10 !border-4 mr-2"></div>
+        </div>
+      )}
     </div>
   );
 };
