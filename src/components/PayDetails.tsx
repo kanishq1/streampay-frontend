@@ -14,26 +14,32 @@ interface PayDetailProps {
 const PayDetails = ({ recipient, linkDetails }: PayDetailProps) => {
   const [txSig, setTxSig] = useState("");
   const [sucess, setSuccess] = useState(false);
+  const [err, setErr] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const { publicKey, signTransaction, signAllTransactions } = useWallet();
   let wallet = { publicKey, signTransaction, signAllTransactions };
 
   const handleRequest = async (e: FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    let streamData: any = await createStreamPayment(wallet as Wallet, {
-      ...linkDetails,
-      recipient,
-    });
-    setTxSig(streamData?.tx);
-    setSuccess(true);
-    setLoading(false);
-    await axios({
-      method: "PUT",
-      url: `${backend_url}/api/link/${linkDetails.link_code}`,
-      data: { status: "PAID" },
-    });
+    try {
+      e.preventDefault();
+      setLoading(true);
+      let streamData: any = await createStreamPayment(wallet as Wallet, {
+        ...linkDetails,
+        recipient,
+      });
+      if (!streamData.tx) return setErr(true);
+      setTxSig(streamData?.tx);
+      setSuccess(true);
+      setLoading(false);
+      await axios({
+        method: "PUT",
+        url: `${backend_url}/api/link/${linkDetails.link_code}`,
+        data: { status: "PAID" },
+      });
+    } catch (err) {
+      setErr(true);
+    }
   };
 
   return (
@@ -92,7 +98,7 @@ const PayDetails = ({ recipient, linkDetails }: PayDetailProps) => {
             </h3>
           )}
         </>
-      ) : (
+      ) : !err ? (
         <>
           <h3 className="mb-6 mt-20 text-2xl font-semibold text-green-500">
             Payment Stream Created 🎉
@@ -118,6 +124,10 @@ const PayDetails = ({ recipient, linkDetails }: PayDetailProps) => {
             </a>
           </p>
         </>
+      ) : (
+        <h3 className="mb-6 mt-20 text-2xl font-semibold text-red-500">
+          Something went wrong :\
+        </h3>
       )}
     </div>
   );

@@ -14,6 +14,8 @@ const RequestForm = () => {
     release_frequency: 1,
     amount_per_period: 1,
     token: "SOL",
+    start_date: moment().format("YYYY-MM-DD"),
+    start_time: moment().add(5, "minutes").format("HH:mm"),
   });
   const [host, setHost] = useState<string>("");
   const freqOptions = [
@@ -41,7 +43,7 @@ const RequestForm = () => {
   const getUnixTime = (date: any, time: any) => {
     console.log(formData.start_date, formData.start_time);
 
-    let start = moment(`${date} ${time}`, "YYYY-MM-DD hh:mm:ss").unix();
+    let start = moment(`${date} ${time}`, "YYYY-MM-DD HH:mm:ss").unix();
     return start;
   };
 
@@ -178,7 +180,7 @@ const RequestForm = () => {
                     name="start_time"
                     className="rounded input h-10 input-bordered"
                     type="time"
-                    defaultValue={moment().add(5, "minutes").format("hh:mm")}
+                    defaultValue={moment().add(5, "minutes").format("HH:mm")}
                   />
                 </div>
                 <div className="col-span-12 flex flex-col">
