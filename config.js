@@ -1,1 +1,1 @@
-export const backend_url = "https://streampay-backend.herokuapp.com";
+export const backend_url = "https://streampay-backend.onrender.com";
